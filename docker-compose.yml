@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+    environment:
+      - "DEBUG=0"
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+      - "SECRET_KEY=g%xhm(=u+6l@pj3s1o!swov1n3p7&#5!z&dp81=7e$$@jq5b&tv"
+
+    volumes:
+      - ".:/code"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/postgres_data
+
+volumes:
+  postgres_data:
